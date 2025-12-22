@@ -1,3 +1,4 @@
+import 'package:fall_detection_app/features/home/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fall_detection_app/features/home/map_container.dart';
 import 'package:fall_detection_app/features/home/status_container.dart';
@@ -64,9 +65,19 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   padding: const EdgeInsets.all(12),
-                  child: const Icon(
-                    Icons.notifications,
-                    color: AppColors.white,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NotificationPage(),
+                        ),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.notifications,
+                      color: AppColors.white,
+                    ),
                   ),
                 ),
               ],
