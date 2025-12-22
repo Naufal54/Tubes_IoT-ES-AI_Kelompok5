@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
           lastUpdate: '10:32 AM',
           history: [
             {'time': '10:15 AM', 'status': 'Normal'},
-            {'time': '09:50 AM', 'status': 'Risiko Jatuh'},
+            {'time': '09:50 AM', 'status': 'Jatuh Terdeteksi'},
             {'time': '09:00 AM', 'status': 'Jatuh Terdeteksi'},
           ],
         ),

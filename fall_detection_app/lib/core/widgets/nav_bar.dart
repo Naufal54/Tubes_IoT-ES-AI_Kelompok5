@@ -8,7 +8,7 @@ class BottomNav extends StatelessWidget {
   const BottomNav({super.key, required this.currentIndex});
 
   void _onTap(BuildContext context, int index) {
-    if (index == currentIndex) return; 
+    if (index == currentIndex) return;
     switch (index) {
       case 0:
         Navigator.pushReplacementNamed(context, AppRoutes.home);
@@ -22,6 +22,27 @@ class BottomNav extends StatelessWidget {
     }
   }
 
+  BottomNavigationBarItem _buildItem(IconData icon, String label, int index) {
+    return BottomNavigationBarItem(
+      icon: Column(
+        children: [
+          // Garis biru di atas jika aktif
+          Container(
+            height: 3,
+            width: 30,
+            decoration: BoxDecoration(
+              color: currentIndex == index ? Colors.blue[800] : Colors.transparent,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Icon(icon),
+        ],
+      ),
+      label: label,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
@@ -29,21 +50,13 @@ class BottomNav extends StatelessWidget {
       selectedItemColor: Colors.blue[800],
       unselectedItemColor: Colors.grey,
       onTap: (index) => _onTap(context, index),
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(AppIcons.home),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(AppIcons.emergency),
-          label: 'Emergency',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(AppIcons.profile),
-          label: 'Profile',
-        ),
-        
+      items: [
+        _buildItem(AppIcons.home, 'Home', 0),
+        _buildItem(AppIcons.emergency, 'Emergency', 1),
+        _buildItem(AppIcons.profile, 'Profile', 2),
       ],
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.white,
     );
   }
 }

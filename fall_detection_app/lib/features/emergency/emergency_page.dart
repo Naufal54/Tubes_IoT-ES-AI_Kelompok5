@@ -9,7 +9,99 @@ class EmergencyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarWidget(title: 'Emergency'),
-      body: const Center(child: Text('EMERGENCY PAGE')),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Informasi Kontak Darurat
+              Text(
+                'Kontak Darurat',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red[700],
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 3,
+                child: ListTile(
+                  leading: const Icon(Icons.family_restroom, color: Colors.red),
+                  title: const Text('Keluarga'),
+                  subtitle: const Text('+62 812 3456 7890'),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.call, color: Colors.green),
+                    onPressed: () {
+                      // Tambahkan aksi untuk melakukan panggilan telepon
+                    },
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 8),
+
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 3,
+                child: ListTile(
+                  leading: const Icon(Icons.local_hospital, color: Colors.red),
+                  title: const Text('Nomor Darurat'),
+                  subtitle: const Text('112 / 119'),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.call, color: Colors.green),
+                    onPressed: () {
+                      // Tambahkan aksi untuk melakukan panggilan telepon
+                    },
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Panduan Pertolongan Pertama
+              Text(
+                'Panduan Pertolongan Pertama',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue[700],
+                ),
+              ),
+              const SizedBox(height: 8),
+              Expanded(
+                child: ListView(
+                  children: const [
+                    ListTile(
+                      leading: Icon(Icons.check, color: Colors.blue),
+                      title: Text('Periksa kesadaran korban'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.check, color: Colors.blue),
+                      title: Text('Hubungi keluarga atau layanan darurat'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.check, color: Colors.blue),
+                      title: Text('Jangan memindahkan korban jika ada cedera serius'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.check, color: Colors.blue),
+                      title: Text('Jika aman, posisikan korban dengan nyaman'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       bottomNavigationBar: const BottomNav(currentIndex: 1),
     );
   }
