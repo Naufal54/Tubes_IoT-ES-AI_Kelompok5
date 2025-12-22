@@ -105,26 +105,32 @@ class _HomePageState extends State<HomePage> {
 
       // ===== CONTENT AREA (MAP) =====
       Expanded(
-        child: Container(
-          color: AppColors.cardBackground,
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Location Tracking',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: AppColors.textSecondary,
+        child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(24),
+              topRight: Radius.circular(24),
+            ),
+          child: Container(
+            color: AppColors.cardBackground,
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Location Tracking',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              Expanded(
-                child: MapContainer(
-                  initialPosition: const LatLng(-6.200000, 106.816666), 
+                const SizedBox(height: 12),
+                Expanded(
+                  child: MapContainer(
+                    initialPosition: const LatLng(-6.9690, 107.6282), 
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

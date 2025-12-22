@@ -34,7 +34,7 @@ class EmergencyPage extends StatelessWidget {
                 child: ListTile(
                   leading: const Icon(Icons.family_restroom, color: Colors.red),
                   title: const Text('Keluarga'),
-                  subtitle: const Text('+62 812 3456 7890'),
+                  subtitle: const Text('+62 813 4682 1420'),
                   trailing: IconButton(
                     icon: const Icon(Icons.call, color: Colors.green),
                     onPressed: () {
