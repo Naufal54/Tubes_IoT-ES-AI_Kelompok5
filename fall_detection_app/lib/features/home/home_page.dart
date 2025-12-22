@@ -1,7 +1,9 @@
-import 'package:fall_detection_app/features/home/status_container.dart';
 import 'package:flutter/material.dart';
+import 'package:fall_detection_app/features/home/map_container.dart';
+import 'package:fall_detection_app/features/home/status_container.dart';
 import 'package:fall_detection_app/core/constants/colors.dart';
 import 'package:fall_detection_app/core/widgets/nav_bar.dart';
+import 'package:latlong2/latlong.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -92,43 +94,26 @@ class _HomePageState extends State<HomePage> {
 
       // ===== CONTENT AREA (MAP) =====
       Expanded(
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
-          child: Container(
-            color: AppColors.cardBackground,
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Location Tracking',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: AppColors.textSecondary,
-                  ),
+        child: Container(
+          color: AppColors.cardBackground,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Location Tracking',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: AppColors.textSecondary,
                 ),
-                const SizedBox(height: 12),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.grey.shade300),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'MAP PLACEHOLDER',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    ),
-                  ),
+              ),
+              const SizedBox(height: 12),
+              Expanded(
+                child: MapContainer(
+                  initialPosition: const LatLng(-6.200000, 106.816666), 
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
