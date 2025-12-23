@@ -12,6 +12,12 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   late TextEditingController _usernameController;
   late TextEditingController _emailController;
+  late TextEditingController _phoneController;
+  
+  // Controller untuk Kontak Darurat
+  late TextEditingController _emergencyNameController;
+  late TextEditingController _emergencyRelationController;
+  late TextEditingController _emergencyPhoneController;
 
   @override
   void initState() {
@@ -19,12 +25,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
     // Isi form dengan data saat ini
     _usernameController = TextEditingController(text: UserInfo.username);
     _emailController = TextEditingController(text: UserInfo.email);
+    _phoneController = TextEditingController(text: UserInfo.phoneNumber);
+    
+    _emergencyNameController = TextEditingController(text: UserInfo.emergencyName);
+    _emergencyRelationController = TextEditingController(text: UserInfo.emergencyRelation);
+    _emergencyPhoneController = TextEditingController(text: UserInfo.emergencyPhone);
   }
 
   @override
   void dispose() {
     _usernameController.dispose();
     _emailController.dispose();
+    _phoneController.dispose();
+    _emergencyNameController.dispose();
+    _emergencyRelationController.dispose();
+    _emergencyPhoneController.dispose();
     super.dispose();
   }
 
@@ -32,6 +47,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
     // Simpan perubahan ke UserInfo
     UserInfo.username = _usernameController.text;
     UserInfo.email = _emailController.text;
+    UserInfo.phoneNumber = _phoneController.text;
+    
+    UserInfo.emergencyName = _emergencyNameController.text;
+    UserInfo.emergencyRelation = _emergencyRelationController.text;
+    UserInfo.emergencyPhone = _emergencyPhoneController.text;
     
     // Kembali ke halaman sebelumnya dengan sinyal 'true' (berhasil update)
     Navigator.pop(context, true);
@@ -45,46 +65,104 @@ class _EditProfilePageState extends State<EditProfilePage> {
         backgroundColor: AppColors.primaryBlue,
         foregroundColor: Colors.white,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(
-                labelText: 'Username',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.person),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ===== Bagian Edit Profile =====
+              const Text(
+                'Edit Profile',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryBlue),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.email),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _usernameController,
+                decoration: const InputDecoration(
+                  labelText: 'Nama Lengkap',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.person),
+                ),
               ),
-            ),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _save,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryBlue,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.email),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+                decoration: const InputDecoration(
+                  labelText: 'Nomor HP',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.phone),
+                ),
+              ),
+
+              const SizedBox(height: 32),
+              const Divider(thickness: 1),
+              const SizedBox(height: 16),
+
+              // ===== Bagian Kontak Darurat =====
+              const Text(
+                'Kontak Darurat',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _emergencyNameController,
+                decoration: const InputDecoration(
+                  labelText: 'Nama Kontak',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.contact_emergency),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _emergencyRelationController,
+                decoration: const InputDecoration(
+                  labelText: 'Hubungan',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.people),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _emergencyPhoneController,
+                keyboardType: TextInputType.phone,
+                decoration: const InputDecoration(
+                  labelText: 'No HP Darurat',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.phone_in_talk),
+                ),
+              ),
+
+              const SizedBox(height: 32),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _save,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryBlue,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text(
+                    'Save Changes',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
-                child: const Text(
-                  'Save Changes',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

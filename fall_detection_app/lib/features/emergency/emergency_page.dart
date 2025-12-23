@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fall_detection_app/core/constants/user_info.dart';
 import 'package:fall_detection_app/core/widgets/app_bar.dart';
 import 'package:fall_detection_app/core/widgets/nav_bar.dart';
 
@@ -33,8 +34,12 @@ class EmergencyPage extends StatelessWidget {
                 elevation: 3,
                 child: ListTile(
                   leading: const Icon(Icons.family_restroom, color: Colors.red),
-                  title: const Text('Keluarga'),
-                  subtitle: const Text('+62 813 4682 1420'),
+                  title: Text(UserInfo.emergencyName.isNotEmpty
+                      ? '${UserInfo.emergencyName}${UserInfo.emergencyRelation.isNotEmpty ? ' (${UserInfo.emergencyRelation})' : ''}'
+                      : 'Kontak Belum Ditetapkan'),
+                  subtitle: Text(UserInfo.emergencyPhone.isNotEmpty
+                      ? UserInfo.emergencyPhone
+                      : 'Silakan atur di menu Profile'),
                   trailing: IconButton(
                     icon: const Icon(Icons.call, color: Colors.green),
                     onPressed: () {

@@ -2,6 +2,7 @@ import 'package:fall_detection_app/core/constants/user_info.dart';
 import 'package:fall_detection_app/core/widgets/app_bar.dart';
 import 'package:fall_detection_app/core/widgets/nav_bar.dart';
 import 'package:fall_detection_app/features/profile/edit_profile_page.dart';
+import 'package:fall_detection_app/features/profile/settings_page.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -43,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             const Divider(thickness: 1, color: Colors.grey),
             ListTile(
               leading: const Icon(Icons.edit),
@@ -58,7 +59,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 }
               },
             ),
-            ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
+                );
+              },
+            ),
             ListTile(leading: Icon(Icons.logout), title: Text('Logout')),
         ],
       ),
