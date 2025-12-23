@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fall_detection_app/core/constants/user_info.dart';
 import 'package:fall_detection_app/features/home/notification_page.dart';
 import 'package:fall_detection_app/features/home/map_container.dart';
 import 'package:fall_detection_app/features/home/status_container.dart';
@@ -39,8 +40,8 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       'Fall Detection App',
                       style: TextStyle(
                         fontSize: 24,
@@ -48,10 +49,10 @@ class _HomePageState extends State<HomePage> {
                         color: AppColors.textWhitePrimary,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
-                      'Welcome User',
-                      style: TextStyle(
+                      'Welcome ${UserInfo.username}',
+                      style: const TextStyle(
                         fontSize: 16,
                         color: AppColors.textWhiteSecondary,
                       ),

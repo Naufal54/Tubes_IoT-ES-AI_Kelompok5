@@ -1,5 +1,7 @@
+import 'package:fall_detection_app/core/constants/user_info.dart';
 import 'package:fall_detection_app/core/widgets/app_bar.dart';
 import 'package:fall_detection_app/core/widgets/nav_bar.dart';
+import 'package:fall_detection_app/features/profile/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -35,14 +37,28 @@ class _ProfilePageState extends State<ProfilePage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('User Name', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Text('user@example.com', style: TextStyle(color: Colors.grey[600])),
+                  Text(UserInfo.username, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(UserInfo.email, style: TextStyle(color: Colors.grey[600])),
                   ],
               ),
             ],
           ),
             SizedBox(height: 20),
-            ListTile(leading: Icon(Icons.edit), title: Text('Edit Profile')),
+            ListTile(
+              leading: const Icon(Icons.edit),
+              title: const Text('Edit Profile'),
+              onTap: () async {
+                // Navigasi ke halaman edit dan tunggu hasilnya
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const EditProfilePage()),
+                );
+                // Jika result true (disimpan), refresh halaman ini
+                if (result == true) {
+                  setState(() {});
+                }
+              },
+            ),
             ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
             ListTile(leading: Icon(Icons.logout), title: Text('Logout')),
         ],
