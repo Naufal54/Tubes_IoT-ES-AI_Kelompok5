@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
 
       // ===== STATUS + RIWAYAT CONTAINER =====
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: StatusRiwayatContainer(
           currentStatus: 'Normal',
           lastUpdate: '10:32 AM',
