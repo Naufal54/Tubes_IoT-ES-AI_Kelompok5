@@ -85,6 +85,10 @@ class EmergencyPage extends StatelessWidget {
                     ),
                     ListTile(
                       leading: Icon(Icons.check, color: Colors.blue),
+                      title: Text('Periksa pernapasan dan denyut nadi korban'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.check, color: Colors.blue),
                       title: Text('Hubungi keluarga atau layanan darurat'),
                     ),
                     ListTile(
