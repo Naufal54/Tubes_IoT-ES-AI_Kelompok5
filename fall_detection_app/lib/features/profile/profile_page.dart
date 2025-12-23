@@ -43,17 +43,16 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
+            const Divider(thickness: 1, color: Colors.grey),
             ListTile(
               leading: const Icon(Icons.edit),
               title: const Text('Edit Profile'),
               onTap: () async {
-                // Navigasi ke halaman edit dan tunggu hasilnya
                 final result = await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const EditProfilePage()),
                 );
-                // Jika result true (disimpan), refresh halaman ini
                 if (result == true) {
                   setState(() {});
                 }

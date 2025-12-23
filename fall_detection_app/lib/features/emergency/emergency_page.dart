@@ -65,6 +65,7 @@ class EmergencyPage extends StatelessWidget {
               ),
 
               const SizedBox(height: 16),
+              const Divider(thickness: 1, height: 32, color: Colors.grey),
 
               // Panduan Pertolongan Pertama
               Text(
