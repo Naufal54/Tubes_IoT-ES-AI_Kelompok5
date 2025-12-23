@@ -1,5 +1,5 @@
-import 'package:fall_detection_app/features/home/notification_page.dart';
 import 'package:flutter/material.dart';
+import 'package:fall_detection_app/features/home/notification_page.dart';
 import 'package:fall_detection_app/features/home/map_container.dart';
 import 'package:fall_detection_app/features/home/status_container.dart';
 import 'package:fall_detection_app/core/constants/colors.dart';

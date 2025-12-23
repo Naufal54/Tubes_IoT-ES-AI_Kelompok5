@@ -27,6 +27,14 @@ class _MapContainerState extends State<MapContainer> {
     mapController.move(widget.initialPosition, 14);
   }
 
+  void _zoomIn() {
+    mapController.move(mapController.camera.center, mapController.camera.zoom + 1);
+  }
+
+  void _zoomOut() {
+    mapController.move(mapController.camera.center, mapController.camera.zoom - 1);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -62,12 +70,17 @@ class _MapContainerState extends State<MapContainer> {
                       point: widget.initialPosition,
                       width: 40,
                       height: 40,
-                      child: const Icon(
-                        Icons.location_on,
-                        color: Colors.red,
-                        size: 40,
+                      alignment: Alignment.bottomCenter,
+                      rotate: true,
+                      child: Transform.translate(
+                        offset: const Offset(0, -40),
+                        child: const Icon(
+                          Icons.location_on,
+                          color: Colors.red,
+                          size: 40,
+                        ),
                       ),
-                    ),
+                   ),
                   ],
                 ),
               ],
@@ -90,6 +103,47 @@ class _MapContainerState extends State<MapContainer> {
                   'Lng: ${currentPosition.longitude.toStringAsFixed(5)}',
                   style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
                 ),
+              ),
+            ),
+
+            // ===== Tombol Zoom In & Out =====
+            Positioned(
+              right: 15,
+              bottom: 70,
+              child: Column(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppColors.secondaryBlue, width: 0.5),
+                    ),
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(Icons.add),
+                      color: AppColors.primaryBlue,
+                      onPressed: _zoomIn,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppColors.secondaryBlue, width: 0.5),
+                    ),
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(Icons.remove),
+                      color: AppColors.primaryBlue,
+                      onPressed: _zoomOut,
+                    ),
+                  ),
+                ],
               ),
             ),
 
