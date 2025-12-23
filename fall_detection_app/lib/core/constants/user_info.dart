@@ -5,4 +5,5 @@ class UserInfo {
   static String emergencyName = 'User Emergency';
   static String emergencyRelation = 'Keluarga';
   static String emergencyPhone = '123-456-7890';
+  static bool isNotificationOn = true;
 }

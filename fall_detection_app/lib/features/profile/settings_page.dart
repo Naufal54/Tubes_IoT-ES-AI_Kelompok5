@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fall_detection_app/core/constants/colors.dart';
+import 'package:fall_detection_app/core/constants/user_info.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,15 @@ class SettingsPage extends StatelessWidget {
             leading: const Icon(Icons.notifications_active),
             title: const Text('Notifikasi'),
             subtitle: const Text('Atur preferensi notifikasi'),
-            trailing: Switch(value: true, onChanged: (val) {}),
+            trailing: Switch(
+              value: UserInfo.isNotificationOn,
+              activeThumbColor: AppColors.primaryBlue,
+              onChanged: (val) {
+                setState(() {
+                  UserInfo.isNotificationOn = val;
+                });
+              },
+            ),
           ),
           const Divider(),
           ListTile(
