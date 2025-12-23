@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fall_detection_app/core/constants/user_info.dart';
 import 'package:fall_detection_app/core/widgets/app_bar.dart';
 import 'package:fall_detection_app/core/widgets/nav_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EmergencyPage extends StatelessWidget {
   const EmergencyPage({super.key});
@@ -39,11 +40,27 @@ class EmergencyPage extends StatelessWidget {
                       : 'Kontak Belum Ditetapkan'),
                   subtitle: Text(UserInfo.emergencyPhone.isNotEmpty
                       ? UserInfo.emergencyPhone
-                      : 'Silakan atur di menu Profile'),
+                      : 'Nomor belum ditetapkan'),
                   trailing: IconButton(
                     icon: const Icon(Icons.call, color: Colors.green),
-                    onPressed: () {
-                      // Tambahkan aksi untuk melakukan panggilan telepon
+                    onPressed: () async {
+                      if (UserInfo.emergencyPhone.isNotEmpty) {
+                        // Hapus karakter selain angka dan + agar format valid
+                        final cleanNumber = UserInfo.emergencyPhone.replaceAll(RegExp(r'[^0-9+]'), '');
+                        final Uri launchUri = Uri(scheme: 'tel', path: cleanNumber);
+                        if (!await launchUrl(launchUri)) {
+                          // Handle jika gagal launch
+                          debugPrint("Tidak dapat memanggil $cleanNumber");
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Nomor kontak darurat belum diatur'),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      }
                     },
                   ),
                 ),
@@ -62,8 +79,11 @@ class EmergencyPage extends StatelessWidget {
                   subtitle: const Text('112 / 119'),
                   trailing: IconButton(
                     icon: const Icon(Icons.call, color: Colors.green),
-                    onPressed: () {
-                      // Tambahkan aksi untuk melakukan panggilan telepon
+                    onPressed: () async {
+                      final Uri launchUri = Uri(scheme: 'tel', path: '112');
+                      if (!await launchUrl(launchUri)) {
+                         debugPrint("Tidak dapat memanggil 112");
+                      }
                     },
                   ),
                 ),
