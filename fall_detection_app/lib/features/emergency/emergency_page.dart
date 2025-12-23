@@ -83,29 +83,44 @@ class EmergencyPage extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Expanded(
-                child: ListView(
-                  children: const [
-                    ListTile(
-                      leading: Icon(Icons.check, color: Colors.blue),
-                      title: Text('Periksa kesadaran korban'),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.check, color: Colors.blue),
-                      title: Text('Periksa pernapasan dan denyut nadi korban'),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.check, color: Colors.blue),
-                      title: Text('Hubungi keluarga atau layanan darurat'),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.check, color: Colors.blue),
-                      title: Text('Jangan memindahkan korban jika ada cedera serius'),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.check, color: Colors.blue),
-                      title: Text('Jika aman, posisikan korban dengan nyaman'),
-                    ),
-                  ],
+                child: Scrollbar(
+                  thumbVisibility: true,
+                  child: ListView(
+                    children: const [
+                      ListTile(
+                        leading: Icon(Icons.check, color: Colors.blue),
+                        title: Text('Pastikan kondisi sekitar kita dan korban aman'),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.check, color: Colors.blue),
+                        title: Text('Periksa kesadaran korban'),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.check, color: Colors.blue),
+                        title: Text('Hubungi bantuan medis segera'),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.check, color: Colors.blue),
+                        title: Text('Jika korban tidak sadar, periksa pernapasan dan denyut nadi selama 10 detik'),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.check, color: Colors.blue),
+                        title: Text('Jika nadi atau pernapasan tidak ada, segera lakukan CPR'),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.check, color: Colors.blue),
+                        title: Text('Jangan pindahkan korban jika ada cedera serius'),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.check, color: Colors.blue),
+                        title: Text('Jika aman, posisikan korban senyaman mungkin'),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.check, color: Colors.blue),
+                        title: Text('Jika bantuan medis tiba, segera lakukan rujukan ke rumah sakit terdekat'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
