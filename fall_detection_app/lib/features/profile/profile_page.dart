@@ -1,3 +1,4 @@
+import 'package:eldercare/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:eldercare/core/constants/user_info.dart';
 import 'package:eldercare/core/widgets/app_bar.dart';
@@ -48,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         const SizedBox(height: 20),
                         ListTile(
-                          leading: const Icon(Icons.person, color: Colors.blue),
+                          leading: const Icon(Icons.person, color: AppColors.primaryBlue),
                           title: const Text('Nama Pengguna'),
                           subtitle: Text(UserInfo.username),
                         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eldercare/core/constants/colors.dart';
 import 'package:eldercare/core/constants/user_info.dart';
 import 'package:eldercare/core/widgets/app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -97,7 +98,7 @@ class EmergencyPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue[700],
+                  color: AppColors.primaryBlue,
                 ),
               ),
               const SizedBox(height: 8),
@@ -107,35 +108,35 @@ class EmergencyPage extends StatelessWidget {
                   child: ListView(
                     children: const [
                       ListTile(
-                        leading: Icon(Icons.check, color: Colors.blue),
+                        leading: Icon(Icons.check, color: AppColors.primaryBlue),
                         title: Text('Pastikan kondisi sekitar kita dan korban aman'),
                       ),
                       ListTile(
-                        leading: Icon(Icons.check, color: Colors.blue),
+                        leading: Icon(Icons.check, color: AppColors.primaryBlue),
                         title: Text('Periksa kesadaran korban'),
                       ),
                       ListTile(
-                        leading: Icon(Icons.check, color: Colors.blue),
+                        leading: Icon(Icons.check, color: AppColors.primaryBlue),
                         title: Text('Hubungi bantuan medis segera'),
                       ),
                       ListTile(
-                        leading: Icon(Icons.check, color: Colors.blue),
+                        leading: Icon(Icons.check, color: AppColors.primaryBlue),
                         title: Text('Jika korban tidak sadar, periksa pernapasan dan denyut nadi selama 10 detik'),
                       ),
                       ListTile(
-                        leading: Icon(Icons.check, color: Colors.blue),
+                        leading: Icon(Icons.check, color: AppColors.primaryBlue),
                         title: Text('Jika nadi atau pernapasan tidak ada, segera lakukan CPR'),
                       ),
                       ListTile(
-                        leading: Icon(Icons.check, color: Colors.blue),
+                        leading: Icon(Icons.check, color: AppColors.primaryBlue),
                         title: Text('Jangan pindahkan korban jika ada cedera serius'),
                       ),
                       ListTile(
-                        leading: Icon(Icons.check, color: Colors.blue),
+                        leading: Icon(Icons.check, color: AppColors.primaryBlue),
                         title: Text('Jika aman, posisikan korban senyaman mungkin'),
                       ),
                       ListTile(
-                        leading: Icon(Icons.check, color: Colors.blue),
+                        leading: Icon(Icons.check, color: AppColors.primaryBlue),
                         title: Text('Jika bantuan medis tiba, segera lakukan rujukan ke rumah sakit terdekat'),
                       ),
                     ],

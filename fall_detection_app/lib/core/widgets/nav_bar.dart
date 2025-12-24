@@ -1,3 +1,4 @@
+import 'package:eldercare/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:eldercare/core/constants/icons.dart';
 
@@ -11,41 +12,82 @@ class CustomBottomNavBar extends StatelessWidget {
     required this.onTap,
   });
 
-  BottomNavigationBarItem _buildItem(IconData icon, String label, int index) {
-    return BottomNavigationBarItem(
-      icon: Column(
-        children: [
-          // Garis biru di atas jika aktif
-          Container(
-            height: 3,
-            width: 30,
-            decoration: BoxDecoration(
-              color: currentIndex == index ? Colors.blue[800] : Colors.transparent,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Icon(icon),
-        ],
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final itemWidth = width / 3;
+
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(top: BorderSide(color: Colors.black12, width: 0.5)),
       ),
-      label: label,
+      child: SafeArea(
+        child: SizedBox(
+          height: kBottomNavigationBarHeight,
+          child: Stack(
+            children: [
+              // Garis biru animasi
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                top: 0,
+                left: (itemWidth * currentIndex) + (itemWidth / 2) - 15,
+                child: Container(
+                  height: 3,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryBlue,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              // Items
+              Row(
+                children: [
+                  _buildNavItem(AppIcons.home, 'Home', 0, itemWidth),
+                  _buildNavItem(AppIcons.emergency, 'Emergency', 1, itemWidth),
+                  _buildNavItem(AppIcons.profile, 'Profile', 2, itemWidth),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: currentIndex,
-      selectedItemColor: Colors.blue[800],
-      unselectedItemColor: Colors.grey,
-      onTap: onTap,
-      items: [
-        _buildItem(AppIcons.home, 'Home', 0),
-        _buildItem(AppIcons.emergency, 'Emergency', 1),
-        _buildItem(AppIcons.profile, 'Profile', 2),
-      ],
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.white,
+  Widget _buildNavItem(IconData icon, String label, int index, double width) {
+    final isSelected = currentIndex == index;
+    return SizedBox(
+      width: width,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => onTap(index),
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 3),
+              Icon(
+                icon,
+                color: isSelected ? AppColors.primaryBlue : Colors.black54,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: isSelected ? AppColors.primaryBlue : Colors.black54,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
