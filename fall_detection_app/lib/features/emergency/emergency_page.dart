@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fall_detection_app/core/constants/user_info.dart';
-import 'package:fall_detection_app/core/widgets/app_bar.dart';
-import 'package:fall_detection_app/core/widgets/nav_bar.dart';
+import 'package:eldercare/core/constants/user_info.dart';
+import 'package:eldercare/core/widgets/app_bar.dart';
+import 'package:eldercare/core/widgets/nav_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EmergencyPage extends StatelessWidget {

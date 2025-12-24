@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fall_detection_app/app/routes.dart';
-import 'package:fall_detection_app/core/constants/icons.dart';
+import 'package:eldercare/app/routes.dart';
+import 'package:eldercare/core/constants/icons.dart';
 
 class BottomNav extends StatelessWidget {
   final int currentIndex;

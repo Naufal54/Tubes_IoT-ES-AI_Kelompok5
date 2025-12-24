@@ -1,9 +1,9 @@
-import 'package:fall_detection_app/core/constants/user_info.dart';
-import 'package:fall_detection_app/core/widgets/app_bar.dart';
-import 'package:fall_detection_app/core/widgets/nav_bar.dart';
-import 'package:fall_detection_app/features/profile/edit_profile_page.dart';
-import 'package:fall_detection_app/features/profile/settings_page.dart';
 import 'package:flutter/material.dart';
+import 'package:eldercare/core/constants/user_info.dart';
+import 'package:eldercare/core/widgets/app_bar.dart';
+import 'package:eldercare/core/widgets/nav_bar.dart';
+import 'package:eldercare/features/profile/edit_profile_page.dart';
+import 'package:eldercare/features/profile/settings_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

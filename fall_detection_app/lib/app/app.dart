@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fall_detection_app/app/routes.dart';
-import 'package:fall_detection_app/app/theme.dart';
+import 'package:eldercare/app/routes.dart';
+import 'package:eldercare/app/theme.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

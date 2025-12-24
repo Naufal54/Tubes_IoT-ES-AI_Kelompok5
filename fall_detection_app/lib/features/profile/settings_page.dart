@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fall_detection_app/core/constants/colors.dart';
-import 'package:fall_detection_app/core/constants/user_info.dart';
+import 'package:eldercare/core/constants/colors.dart';
+import 'package:eldercare/core/constants/user_info.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fall_detection_app/core/constants/user_info.dart';
-import 'package:fall_detection_app/features/home/notification_page.dart';
-import 'package:fall_detection_app/features/home/map_container.dart';
-import 'package:fall_detection_app/features/home/status_container.dart';
-import 'package:fall_detection_app/core/constants/colors.dart';
-import 'package:fall_detection_app/core/widgets/nav_bar.dart';
+import 'package:eldercare/core/constants/user_info.dart';
+import 'package:eldercare/features/home/notification_page.dart';
+import 'package:eldercare/features/home/map_container.dart';
+import 'package:eldercare/features/home/status_container.dart';
+import 'package:eldercare/core/constants/colors.dart';
+import 'package:eldercare/core/widgets/nav_bar.dart';
 import 'package:latlong2/latlong.dart';
 
 class HomePage extends StatefulWidget {
