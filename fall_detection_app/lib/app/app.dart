@@ -1,5 +1,5 @@
+import 'package:eldercare/app/router/app_router.dart';
 import 'package:flutter/material.dart';
-import 'package:eldercare/app/routes.dart';
 import 'package:eldercare/app/theme.dart';
 
 class MyApp extends StatelessWidget {
@@ -7,11 +7,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      initialRoute: AppRoutes.home,
-      onGenerateRoute: AppRoutes.generateRoute,
+      routerConfig: router,
     );
   }
 }

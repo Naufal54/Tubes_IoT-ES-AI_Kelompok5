@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eldercare/core/constants/user_info.dart';
 import 'package:eldercare/core/widgets/app_bar.dart';
-import 'package:eldercare/core/widgets/nav_bar.dart';
-import 'package:eldercare/features/profile/edit_profile_page.dart';
-import 'package:eldercare/features/profile/settings_page.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -21,7 +19,6 @@ class _ProfilePageState extends State<ProfilePage> {
       body: SafeArea(
         child: _profileContent(),
       ),
-      bottomNavigationBar: const BottomNav(currentIndex: 2),
     );
   }
 
@@ -90,24 +87,15 @@ class _ProfilePageState extends State<ProfilePage> {
             ListTile(
               leading: const Icon(Icons.edit),
               title: const Text('Edit Profile'),
-              onTap: () async {
-                final result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const EditProfilePage()),
-                );
-                if (result == true) {
-                  setState(() {});
-                }
+              onTap: () {
+                context.go('/profile/edit-profile');
               },
             ),
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SettingsPage()),
-                );
+                context.go('/profile/settings');
               },
             ),
             ListTile(leading: Icon(Icons.logout), title: Text('Logout')),

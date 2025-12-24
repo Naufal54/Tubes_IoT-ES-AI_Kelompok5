@@ -1,26 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:eldercare/app/routes.dart';
 import 'package:eldercare/core/constants/icons.dart';
 
-class BottomNav extends StatelessWidget {
+class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
+  final Function(int) onTap;
 
-  const BottomNav({super.key, required this.currentIndex});
-
-  void _onTap(BuildContext context, int index) {
-    if (index == currentIndex) return;
-    switch (index) {
-      case 0:
-        Navigator.pushReplacementNamed(context, AppRoutes.home);
-        break;
-      case 1:
-        Navigator.pushReplacementNamed(context, AppRoutes.emergency);
-        break;
-      case 2:
-        Navigator.pushReplacementNamed(context, AppRoutes.profile);
-        break;
-    }
-  }
+  const CustomBottomNavBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   BottomNavigationBarItem _buildItem(IconData icon, String label, int index) {
     return BottomNavigationBarItem(
@@ -49,7 +38,7 @@ class BottomNav extends StatelessWidget {
       currentIndex: currentIndex,
       selectedItemColor: Colors.blue[800],
       unselectedItemColor: Colors.grey,
-      onTap: (index) => _onTap(context, index),
+      onTap: onTap,
       items: [
         _buildItem(AppIcons.home, 'Home', 0),
         _buildItem(AppIcons.emergency, 'Emergency', 1),
