@@ -31,18 +31,59 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         children: [
           SizedBox(height: 8),
-          Row(
-            children: [
-              CircleAvatar(radius: 36, child: Icon(Icons.person, size: 36)),
-              SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(UserInfo.username, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Text(UserInfo.email, style: TextStyle(color: Colors.grey[600])),
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                ),
+                builder: (context) {
+                  return Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Informasi Pengguna',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 20),
+                        ListTile(
+                          leading: const Icon(Icons.person, color: Colors.blue),
+                          title: const Text('Nama Pengguna'),
+                          subtitle: Text(UserInfo.username),
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.email, color: Colors.green),
+                          title: const Text('Email'),
+                          subtitle: Text(UserInfo.email),
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.phone, color: Colors.orange),
+                          title: const Text('Nomor Telepon'),
+                          subtitle: Text(UserInfo.phoneNumber),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+            child: Row(
+              children: [
+                CircleAvatar(radius: 36, child: Icon(Icons.person, size: 36)),
+                SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(UserInfo.username, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text(UserInfo.email, style: TextStyle(color: Colors.grey[600])),
                   ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
             const SizedBox(height: 10),
             const Divider(thickness: 1, color: Colors.grey),
