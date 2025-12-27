@@ -1,21 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:eldercare/core/constants/colors.dart';
-import 'package:eldercare/core/constants/user_info.dart';
-import 'package:eldercare/core/widgets/app_bar.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../../core/constants/colors.dart';
+import '../../../core/widgets/app_bar.dart';
+import '../controller/emergency_controller.dart';
 
-class EmergencyPage extends StatelessWidget {
+class EmergencyPage extends StatefulWidget {
   const EmergencyPage({super.key});
 
   @override
+  State<EmergencyPage> createState() => _EmergencyPageState();
+}
+
+class _EmergencyPageState extends State<EmergencyPage> {
+  final EmergencyController _controller = EmergencyController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Scaffold(
       appBar: const AppBarWidget(title: 'Emergency'),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: RefreshIndicator(
+          color: AppColors.primaryBlue,
+          onRefresh: () async {
+            await _controller.loadData();
+          },
+          child: ListView(
+            padding: const EdgeInsets.all(16.0),
             children: [
               // Informasi Kontak Darurat
               Text(
@@ -35,33 +53,15 @@ class EmergencyPage extends StatelessWidget {
                 elevation: 3,
                 child: ListTile(
                   leading: const Icon(Icons.family_restroom, color: Colors.red),
-                  title: Text(UserInfo.emergencyName.isNotEmpty
-                      ? '${UserInfo.emergencyName}${UserInfo.emergencyRelation.isNotEmpty ? ' (${UserInfo.emergencyRelation})' : ''}'
+                  title: Text(_controller.name.isNotEmpty
+                      ? '${_controller.name}${_controller.relation.isNotEmpty ? ' (${_controller.relation})' : ''}'
                       : 'Kontak Belum Ditetapkan'),
-                  subtitle: Text(UserInfo.emergencyPhone.isNotEmpty
-                      ? UserInfo.emergencyPhone
+                  subtitle: Text(_controller.phone.isNotEmpty
+                      ? _controller.phone
                       : 'Nomor belum ditetapkan'),
                   trailing: IconButton(
                     icon: const Icon(Icons.call, color: Colors.green),
-                    onPressed: () async {
-                      if (UserInfo.emergencyPhone.isNotEmpty) {
-                        // Hapus karakter selain angka dan + agar format valid
-                        final cleanNumber = UserInfo.emergencyPhone.replaceAll(RegExp(r'[^0-9+]'), '');
-                        final Uri launchUri = Uri(scheme: 'tel', path: cleanNumber);
-                        if (!await launchUrl(launchUri)) {
-                          // Handle jika gagal launch
-                          debugPrint("Tidak dapat memanggil $cleanNumber");
-                        }
-                      } else {
-                        ScaffoldMessenger.of(context).clearSnackBars();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Nomor kontak darurat belum diatur'),
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
-                      }
-                    },
+                    onPressed: () => _controller.callContact(context),
                   ),
                 ),
               ),
@@ -79,12 +79,7 @@ class EmergencyPage extends StatelessWidget {
                   subtitle: const Text('112 / 119'),
                   trailing: IconButton(
                     icon: const Icon(Icons.call, color: Colors.green),
-                    onPressed: () async {
-                      final Uri launchUri = Uri(scheme: 'tel', path: '112');
-                      if (!await launchUrl(launchUri)) {
-                         debugPrint("Tidak dapat memanggil 112");
-                      }
-                    },
+                    onPressed: () => _controller.callAmbulance(),
                   ),
                 ),
               ),
@@ -102,11 +97,10 @@ class EmergencyPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              Expanded(
-                child: Scrollbar(
-                  thumbVisibility: true,
-                  child: ListView(
-                    children: const [
+              // List panduan langsung dimasukkan ke ListView utama
+              // agar halaman menjadi satu kesatuan scroll
+              const Column(
+                children: [
                       ListTile(
                         leading: Icon(Icons.check, color: AppColors.primaryBlue),
                         title: Text('Pastikan kondisi sekitar kita dan korban aman'),
@@ -141,12 +135,12 @@ class EmergencyPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ),
             ],
           ),
         ),
       ),
+    );
+      },
     );
   }
 }

@@ -1,9 +1,10 @@
-import 'package:eldercare/features/emergency/emergency_page.dart';
-import 'package:eldercare/features/home/home_page.dart';
-import 'package:eldercare/features/profile/edit_profile_page.dart';
-import 'package:eldercare/features/profile/profile_page.dart';
-import 'package:eldercare/features/profile/settings_page.dart';
-import 'package:eldercare/main_page.dart';
+
+import 'package:eldercare/features/emergency/page/emergency_page.dart';
+import 'package:eldercare/features/home/page/home_page.dart';
+import 'package:eldercare/features/main_page.dart';
+import 'package:eldercare/features/profile/page/edit_profile_page.dart';
+import 'package:eldercare/features/profile/page/profile_page.dart';
+import 'package:eldercare/features/profile/page/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

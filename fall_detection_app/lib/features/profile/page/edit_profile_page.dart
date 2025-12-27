@@ -65,7 +65,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
         backgroundColor: AppColors.primaryBlue,
         foregroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
+      body: Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: Theme.of(context).colorScheme.copyWith(
+            primary: AppColors.primaryBlue,
+          ),
+        ),
+        child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -164,6 +170,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

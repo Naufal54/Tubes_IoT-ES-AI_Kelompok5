@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:eldercare/core/constants/user_info.dart';
-import 'package:eldercare/features/home/notification_page.dart';
-import 'package:eldercare/features/home/map_container.dart';
-import 'package:eldercare/features/home/status_container.dart';
 import 'package:eldercare/core/constants/colors.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:eldercare/core/constants/user_info.dart';
+import 'package:eldercare/features/home/page/notification_page.dart';
+import 'package:eldercare/features/home/container/map_container.dart';
+import 'package:eldercare/features/home/container/status_container.dart';
+import 'package:eldercare/features/home/controller/home_controller.dart';
+import 'package:eldercare/features/emergency/controller/user_notifier.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,18 +15,42 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final HomeController _controller = HomeController();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBlue,
       body: SafeArea(
-        child: _homeContent(),
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            if (_controller.isLoading) {
+              return const Center(child: CircularProgressIndicator(color: Colors.white));
+            }
+            return RefreshIndicator(
+              color: AppColors.primaryBlue,
+              onRefresh: () async {
+                notifyUserUpdates(); 
+                await _controller.loadData();
+              },
+              child: _homeContent(),
+            );
+          },
+        ),
       ),
     );
   }
 
   Widget _homeContent() {
-  return Column(
+  // Menggunakan ListView agar bisa di-scroll (syarat RefreshIndicator)
+  return ListView(
     children: [
       // ===== HEADER =====
       Padding(
@@ -90,20 +115,17 @@ class _HomePageState extends State<HomePage> {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: StatusRiwayatContainer(
-          currentStatus: 'Normal',
-          lastUpdate: '10:32 AM',
-          history: [
-            {'time': '10:15 AM', 'status': 'Normal'},
-            {'time': '09:50 AM', 'status': 'Jatuh Terdeteksi'},
-            {'time': '09:00 AM', 'status': 'Jatuh Terdeteksi'},
-          ],
+          currentStatus: _controller.currentStatus,
+          lastUpdate: _controller.lastUpdate,
+          history: _controller.history,
         ),
       ),
 
       const SizedBox(height: 8),
 
       // ===== CONTENT AREA (MAP) =====
-      Expanded(
+      SizedBox(
+        height: 400, // Memberikan tinggi tetap agar peta tampil di dalam ListView
         child: ClipRRect(
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(24),
@@ -125,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(height: 12),
                 Expanded(
                   child: MapContainer(
-                    initialPosition: const LatLng(-6.9690, 107.6282), 
+                    initialPosition: _controller.initialLocation, 
                   ),
                 ),
               ],

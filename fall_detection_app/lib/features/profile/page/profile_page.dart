@@ -1,6 +1,6 @@
 import 'package:eldercare/core/constants/colors.dart';
+import 'package:eldercare/features/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:eldercare/core/constants/user_info.dart';
 import 'package:eldercare/core/widgets/app_bar.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,21 +12,32 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final ProfileController _controller = ProfileController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const AppBarWidget(title: 'Profile'),
-      body: SafeArea(
-        child: _profileContent(),
-      ),
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Scaffold(
+          appBar: const AppBarWidget(title: 'Profile'),
+          body: SafeArea(
+            child: _profileContent(),
+          ),
+        );
+      },
     );
   }
 
   Widget _profileContent() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
+    return ListView(
+        padding: const EdgeInsets.all(8.0),
         children: [
           SizedBox(height: 8),
           InkWell(
@@ -51,17 +62,17 @@ class _ProfilePageState extends State<ProfilePage> {
                         ListTile(
                           leading: const Icon(Icons.person, color: AppColors.primaryBlue),
                           title: const Text('Nama Pengguna'),
-                          subtitle: Text(UserInfo.username),
+                          subtitle: Text(_controller.username),
                         ),
                         ListTile(
                           leading: const Icon(Icons.email, color: Colors.green),
                           title: const Text('Email'),
-                          subtitle: Text(UserInfo.email),
+                          subtitle: Text(_controller.email),
                         ),
                         ListTile(
                           leading: const Icon(Icons.phone, color: Colors.orange),
                           title: const Text('Nomor Telepon'),
-                          subtitle: Text(UserInfo.phoneNumber),
+                          subtitle: Text(_controller.phoneNumber),
                         ),
                       ],
                     ),
@@ -71,13 +82,17 @@ class _ProfilePageState extends State<ProfilePage> {
             },
             child: Row(
               children: [
-                CircleAvatar(radius: 36, child: Icon(Icons.person, size: 36)),
+                const CircleAvatar(
+                  radius: 36,
+                  backgroundColor: AppColors.tertiaryBlue,
+                  child: Icon(Icons.person, size: 36, color: AppColors.primaryBlue),
+                ),
                 SizedBox(width: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(UserInfo.username, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text(UserInfo.email, style: TextStyle(color: Colors.grey[600])),
+                    Text(_controller.username, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text(_controller.email, style: TextStyle(color: Colors.grey[600])),
                   ],
                 ),
               ],
@@ -101,7 +116,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             ListTile(leading: Icon(Icons.logout), title: Text('Logout')),
         ],
-      ),
     );
   }
 }
