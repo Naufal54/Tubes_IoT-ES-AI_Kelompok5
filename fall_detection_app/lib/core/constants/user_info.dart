@@ -1,4 +1,13 @@
+import 'package:flutter/material.dart';
+
 class UserInfo {
+  // Notifier terpusat untuk memantau perubahan data
+  static final ValueNotifier<int> onUpdate = ValueNotifier(0);
+
+  static void update() {
+    onUpdate.value++;
+  }
+
   static String username = 'User Name';
   static String email = 'user@example.com';
   static String phoneNumber = '';

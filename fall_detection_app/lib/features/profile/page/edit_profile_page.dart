@@ -53,6 +53,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
     UserInfo.emergencyRelation = _emergencyRelationController.text;
     UserInfo.emergencyPhone = _emergencyPhoneController.text;
     
+    // Trigger update global
+    UserInfo.update();
+
     // Kembali ke halaman sebelumnya dengan sinyal 'true' (berhasil update)
     Navigator.pop(context, true);
   }

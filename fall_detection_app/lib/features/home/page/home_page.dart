@@ -5,7 +5,6 @@ import 'package:eldercare/features/home/page/notification_page.dart';
 import 'package:eldercare/features/home/container/map_container.dart';
 import 'package:eldercare/features/home/container/status_container.dart';
 import 'package:eldercare/features/home/controller/home_controller.dart';
-import 'package:eldercare/features/emergency/controller/user_notifier.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,7 +36,7 @@ class _HomePageState extends State<HomePage> {
             return RefreshIndicator(
               color: AppColors.primaryBlue,
               onRefresh: () async {
-                notifyUserUpdates(); 
+                UserInfo.update(); 
                 await _controller.loadData();
               },
               child: _homeContent(),

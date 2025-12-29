@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/widgets/app_bar.dart';
 import '../controller/emergency_controller.dart';
+import '../../../core/constants/user_info.dart';
 
 class EmergencyPage extends StatefulWidget {
   const EmergencyPage({super.key});
@@ -30,6 +31,7 @@ class _EmergencyPageState extends State<EmergencyPage> {
         child: RefreshIndicator(
           color: AppColors.primaryBlue,
           onRefresh: () async {
+            UserInfo.update();
             await _controller.loadData();
           },
           child: ListView(

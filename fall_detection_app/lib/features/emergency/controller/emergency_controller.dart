@@ -1,4 +1,3 @@
-import 'package:eldercare/features/emergency/controller/user_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:eldercare/core/constants/user_info.dart';
@@ -12,12 +11,12 @@ class EmergencyController extends ChangeNotifier {
     loadData();
     // PENTING: Controller mendengarkan notifikasi global
     // Jadi saat Edit Profile disimpan, controller ini otomatis refresh data
-    userUpdateNotifier.addListener(loadData);
+    UserInfo.onUpdate.addListener(loadData);
   }
 
   @override
   void dispose() {
-    userUpdateNotifier.removeListener(loadData);
+    UserInfo.onUpdate.removeListener(loadData);
     super.dispose();
   }
 
