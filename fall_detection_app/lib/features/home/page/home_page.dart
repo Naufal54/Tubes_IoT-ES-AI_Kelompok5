@@ -5,6 +5,7 @@ import 'package:eldercare/features/home/page/notification_page.dart';
 import 'package:eldercare/features/home/container/map_container.dart';
 import 'package:eldercare/features/home/container/status_container.dart';
 import 'package:eldercare/features/home/controller/home_controller.dart';
+import 'package:eldercare/services/notification_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -75,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                // Notification icon
+                // Notification icon dengan badge
                 Container(
                   decoration: BoxDecoration(
                     color: AppColors.secondaryBlue,
@@ -84,6 +85,8 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(12),
                   child: InkWell(
                     onTap: () {
+                      // Clear badge when opening notifications
+                      NotificationService().clearBadge();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -91,9 +94,34 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     },
-                    child: const Icon(
-                      Icons.notifications,
-                      color: AppColors.white,
+                    child: Stack(
+                      children: [
+                        const Icon(
+                          Icons.notifications,
+                          color: AppColors.white,
+                        ),
+                        // Badge counter
+                        if (NotificationService.getBadgeCount() > 0)
+                          Positioned(
+                            right: -5,
+                            top: -5,
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: AppColors.danger,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Text(
+                                NotificationService.getBadgeCount().toString(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 ),
@@ -148,6 +176,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+
     ],
   );
 }
