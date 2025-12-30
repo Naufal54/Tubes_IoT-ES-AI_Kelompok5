@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class UserInfo {
-  // Notifier terpusat untuk memantau perubahan data
   static final ValueNotifier<int> onUpdate = ValueNotifier(0);
 
   static void update() {

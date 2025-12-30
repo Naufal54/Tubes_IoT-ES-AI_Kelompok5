@@ -17,12 +17,6 @@ class _HomePageState extends State<HomePage> {
   final HomeController _controller = HomeController();
 
   @override
-  void initState() {
-    super.initState();
-    _controller.loadData();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBlue,
@@ -37,7 +31,7 @@ class _HomePageState extends State<HomePage> {
               color: AppColors.primaryBlue,
               onRefresh: () async {
                 UserInfo.update(); 
-                await _controller.loadData();
+                await Future.delayed(const Duration(seconds: 1));
               },
               child: _homeContent(),
             );

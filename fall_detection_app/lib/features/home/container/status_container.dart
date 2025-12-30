@@ -14,29 +14,27 @@ class StatusRiwayatContainer extends StatelessWidget {
   });
 
   Color getStatusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'normal':
-        return AppColors.safe;
-      case 'risiko jatuh':
-        return AppColors.warning;
-      case 'jatuh terdeteksi':
-        return AppColors.danger;
-      default:
-        return AppColors.grey;
+    final statusLower = status.toLowerCase().trim();
+    if (statusLower.contains('normal')) {
+      return AppColors.safe;
+    } else if (statusLower.contains('risiko') || statusLower.contains('risk')) {
+      return AppColors.warning;
+    } else if (statusLower.contains('jatuh') || statusLower.contains('fall')) {
+      return AppColors.danger;
     }
+    return AppColors.grey;
   }
 
   IconData getStatusIcon(String status) {
-    switch (status.toLowerCase()) {
-      case 'normal':
-        return Icons.check_circle;
-      case 'risiko jatuh':
-        return Icons.warning;
-      case 'jatuh terdeteksi':
-        return Icons.error;
-      default:
-        return Icons.info;
+    final statusLower = status.toLowerCase().trim();
+    if (statusLower.contains('normal')) {
+      return Icons.check_circle;
+    } else if (statusLower.contains('risiko') || statusLower.contains('risk')) {
+      return Icons.warning;
+    } else if (statusLower.contains('jatuh') || statusLower.contains('fall')) {
+      return Icons.error;
     }
+    return Icons.info;
   }
 
   @override

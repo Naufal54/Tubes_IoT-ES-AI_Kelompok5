@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eldercare/core/constants/colors.dart';
 import 'package:eldercare/core/constants/user_info.dart';
+import 'package:eldercare/services/user_service.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -18,6 +19,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
   late TextEditingController _emergencyNameController;
   late TextEditingController _emergencyRelationController;
   late TextEditingController _emergencyPhoneController;
+
+  final UserService _userService = UserService();
+  bool _isSaving = false;
 
   @override
   void initState() {
@@ -43,21 +47,67 @@ class _EditProfilePageState extends State<EditProfilePage> {
     super.dispose();
   }
 
-  void _save() {
-    // Simpan perubahan ke UserInfo
-    UserInfo.username = _usernameController.text;
-    UserInfo.email = _emailController.text;
-    UserInfo.phoneNumber = _phoneController.text;
+  Future<void> _save() async {
+    if (_isSaving) return; // Hindari multiple taps
     
-    UserInfo.emergencyName = _emergencyNameController.text;
-    UserInfo.emergencyRelation = _emergencyRelationController.text;
-    UserInfo.emergencyPhone = _emergencyPhoneController.text;
-    
-    // Trigger update global
-    UserInfo.update();
+    setState(() {
+      _isSaving = true;
+    });
 
-    // Kembali ke halaman sebelumnya dengan sinyal 'true' (berhasil update)
-    Navigator.pop(context, true);
+    try {
+      // Simpan profile ke Firebase
+      await _userService.updateUserProfile(
+        _usernameController.text,
+        _emailController.text,
+        _phoneController.text,
+      );
+
+      // Simpan kontak darurat ke Firebase
+      await _userService.updateEmergencyContact(
+        _emergencyNameController.text,
+        _emergencyRelationController.text,
+        _emergencyPhoneController.text,
+      );
+
+      // Update UserInfo lokal setelah berhasil simpan
+      UserInfo.username = _usernameController.text;
+      UserInfo.email = _emailController.text;
+      UserInfo.phoneNumber = _phoneController.text;
+      
+      UserInfo.emergencyName = _emergencyNameController.text;
+      UserInfo.emergencyRelation = _emergencyRelationController.text;
+      UserInfo.emergencyPhone = _emergencyPhoneController.text;
+      
+      UserInfo.update();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Profile berhasil diperbarui!'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+
+        // Kembali ke halaman sebelumnya
+        Navigator.pop(context, true);
+      }
+    } catch (e) {
+      debugPrint('Error saving profile: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: ${e.toString()}'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSaving = false;
+        });
+      }
+    }
   }
 
   @override
@@ -156,7 +206,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _save,
+                  onPressed: _isSaving ? null : _save,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryBlue,
                     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -164,10 +214,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: const Text(
-                    'Save Changes',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
+                  child: _isSaving
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      )
+                    : const Text(
+                        'Save Changes',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
                 ),
               ),
             ],

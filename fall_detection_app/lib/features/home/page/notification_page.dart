@@ -18,6 +18,32 @@ class _NotificationPageState extends State<NotificationPage> {
     super.dispose();
   }
 
+  // Helper function untuk mendapatkan warna berdasarkan status
+  Color getStatusColor(String status) {
+    final statusLower = status.toLowerCase().trim();
+    if (statusLower.contains('normal')) {
+      return AppColors.safe;
+    } else if (statusLower.contains('risiko') || statusLower.contains('risk')) {
+      return AppColors.warning;
+    } else if (statusLower.contains('jatuh') || statusLower.contains('fall')) {
+      return AppColors.danger;
+    }
+    return AppColors.grey;
+  }
+
+  // Helper function untuk mendapatkan icon berdasarkan status
+  IconData getStatusIcon(String status) {
+    final statusLower = status.toLowerCase().trim();
+    if (statusLower.contains('normal')) {
+      return Icons.check_circle;
+    } else if (statusLower.contains('risiko') || statusLower.contains('risk')) {
+      return Icons.warning;
+    } else if (statusLower.contains('jatuh') || statusLower.contains('fall')) {
+      return Icons.error;
+    }
+    return Icons.info;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +80,9 @@ class _NotificationPageState extends State<NotificationPage> {
             itemCount: _controller.notifications.length,
             itemBuilder: (context, index) {
               final item = _controller.notifications[index];
-              final isFall = item['status'] == 'Jatuh Terdeteksi';
+              final status = item['status'] ?? 'Unknown';
+              final statusColor = getStatusColor(status);
+              final statusIcon = getStatusIcon(status);
 
               return Card(
                 margin: const EdgeInsets.only(bottom: 12),
@@ -65,17 +93,17 @@ class _NotificationPageState extends State<NotificationPage> {
                 child: ListTile(
                   leading: CircleAvatar(
                     // ignore: deprecated_member_use
-                    backgroundColor: isFall ? AppColors.danger.withOpacity(0.1) : AppColors.primaryBlue.withOpacity(0.1),
+                    backgroundColor: statusColor.withOpacity(0.1),
                     child: Icon(
-                      isFall ? Icons.warning_amber_rounded : Icons.check_circle_outline,
-                      color: isFall ? AppColors.danger : AppColors.primaryBlue,
+                      statusIcon,
+                      color: statusColor,
                     ),
                   ),
                   title: Text(
-                    item['status'] ?? 'Unknown',
+                    status,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: isFall ? AppColors.danger : AppColors.textPrimary,
+                      color: statusColor,
                     ),
                   ),
                   subtitle: Text(
