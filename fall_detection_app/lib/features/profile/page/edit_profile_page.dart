@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:eldercare/core/constants/colors.dart';
 import 'package:eldercare/core/constants/user_info.dart';
 import 'package:eldercare/services/user_service.dart';
@@ -109,6 +110,37 @@ class _EditProfilePageState extends State<EditProfilePage> {
       }
     }
   }
+
+  // ============================================================
+  // FUNGSI DEBUG: TEST NOTIFIKASI (BISA DIHAPUS NANTI)
+  // ============================================================
+  Future<void> _sendTestNotification() async {
+    try {
+      final ref = FirebaseDatabase.instance.ref('device_data/history');
+      final newKey = ref.push().key;
+      
+      // Ambil waktu saat ini (Hari ini)
+      final now = DateTime.now();
+      // Format sederhana: yyyy-MM-dd HH:mm:ss
+      final timeStr = now.toString().substring(0, 19);
+
+      await ref.child(newKey!).set({
+        'lat': -6.96926,
+        'lon': 107.6282,
+        'status': 'Terdeteksi Jatuh (TEST)',
+        'timestamp_gmt9': timeStr,
+      });
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Data Test Terkirim! Tunggu notifikasi...')),
+        );
+      }
+    } catch (e) {
+      debugPrint('Error sending test data: $e');
+    }
+  }
+  // ============================================================
 
   @override
   Widget build(BuildContext context) {
@@ -229,6 +261,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                 ),
               ),
+
+              // ============================================================
+              // TOMBOL DEBUG (BISA DIHAPUS NANTI)
+              // ============================================================
+              const SizedBox(height: 30),
+              Center(
+                child: TextButton.icon(
+                  onPressed: _sendTestNotification,
+                  icon: const Icon(Icons.notifications_active_outlined, color: Colors.grey),
+                  label: const Text('Kirim Test Notifikasi (Debug)', style: TextStyle(color: Colors.grey)),
+                ),
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),

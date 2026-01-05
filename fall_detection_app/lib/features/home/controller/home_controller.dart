@@ -61,10 +61,14 @@ class HomeController extends ChangeNotifier {
       
       // Handle lastUpdate (bisa berupa int epoch atau string)
       // Hanya simpan timestamp tanpa prefix, prefix akan ditambah di UI
-      if (data['lastUpdate'] != null && data['lastUpdate'] is int) {
-        HomeInfo.lastUpdate = _formatTimestamp(data['lastUpdate']);
+      if (data['lastUpdate'] != null) {
+        if (data['lastUpdate'] is int) {
+          HomeInfo.lastUpdate = _formatDateTime(DateTime.fromMillisecondsSinceEpoch(data['lastUpdate'] * 1000));
+        } else {
+          HomeInfo.lastUpdate = _tryFormatString(data['lastUpdate'].toString());
+        }
       } else {
-        HomeInfo.lastUpdate = data['lastUpdate']?.toString() ?? '-';
+        HomeInfo.lastUpdate = '-';
       }
       
       // Konversi List dynamic ke List<Map<String, String>>
@@ -74,11 +78,11 @@ class HomeController extends ChangeNotifier {
         String timeStr = '-';
         // Cek jika data menggunakan key 'timestamp' (Epoch)
         if (item['timestamp'] != null && item['timestamp'] is int) {
-          timeStr = _formatTimestamp(item['timestamp']);
+          timeStr = _formatDateTime(DateTime.fromMillisecondsSinceEpoch(item['timestamp'] * 1000));
         } else if (item['timestamp_gmt9'] != null) {
-          timeStr = item['timestamp_gmt9'].toString();
+          timeStr = _tryFormatString(item['timestamp_gmt9'].toString());
         } else if (item['time'] != null) {
-          timeStr = item['time'].toString();
+          timeStr = _tryFormatString(item['time'].toString());
         }
         return {
           'status': item['status']?.toString() ?? '-',
@@ -101,12 +105,35 @@ class HomeController extends ChangeNotifier {
     }
   }
 
-  String _formatTimestamp(int timestamp) {
-    final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-    final hour = date.hour;
+  // Helper untuk mencoba parse string tanggal (misal: "2026-01-04 19:27:00")
+  String _tryFormatString(String dateStr) {
+    try {
+      final date = DateTime.parse(dateStr);
+      return _formatDateTime(date);
+    } catch (_) {
+      return dateStr; // Jika gagal parse, kembalikan string aslinya
+    }
+  }
+
+  // Logika utama formatting: Today, Yesterday, atau Tanggal
+  String _formatDateTime(DateTime date) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+    final dateToCheck = DateTime(date.year, date.month, date.day);
+
+    final hour = date.hour.toString().padLeft(2, '0');
     final minute = date.minute.toString().padLeft(2, '0');
-    final period = hour >= 12 ? 'PM' : 'AM';
-    final hour12 = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
-    return '$hour12:$minute $period';
+    final time = '$hour:$minute';
+
+    if (dateToCheck == today) {
+      return 'Today, $time';
+    } else if (dateToCheck == yesterday) {
+      return 'Yesterday, $time';
+    } else {
+      // Format: dd MMM, HH:mm (Contoh: 04 Jan, 19:27)
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return '${date.day} ${months[date.month - 1]}, $time';
+    }
   }
 }
