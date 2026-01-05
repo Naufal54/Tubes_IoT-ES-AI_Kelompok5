@@ -27,15 +27,6 @@ class HomeService {
             throw Exception('Format data tidak dikenali.');
           }
 
-          // Parsing Location dengan aman (handle null & tipe data)
-          LatLng location = const LatLng(-6.9690, 107.6282);
-          if (dataMap['location'] != null && dataMap['location'] is Map) {
-            final locMap = dataMap['location'] as Map;
-            location = LatLng(
-              (locMap['latitude'] as num? ?? -6.9690).toDouble(),
-              (locMap['longitude'] as num? ?? 107.6282).toDouble(),
-            );
-          }
 
           // Parsing History (Handle Map atau List)
           List<Map<String, dynamic>> historyList = [];
@@ -58,15 +49,32 @@ class HomeService {
             
             // Sort descending
             historyList.sort((a, b) {
-              int timeA = (a['timestamp'] is int) ? a['timestamp'] : 0;
-              int timeB = (b['timestamp'] is int) ? b['timestamp'] : 0;
+              String timeA = a['timestamp_gmt9']?.toString() ?? '';
+              String timeB = b['timestamp_gmt9']?.toString() ?? '';
               return timeB.compareTo(timeA);
             });
           }
 
+          // Determine current status from latest history
+          String currentStatus = 'Aman';
+          dynamic lastUpdate = '-';
+          LatLng location = const LatLng(-6.9690, 107.6282);
+
+          if (historyList.isNotEmpty) {
+            final latest = historyList.first;
+            currentStatus = latest['status']?.toString() ?? 'Aman';
+            lastUpdate = latest['timestamp_gmt9'];
+            
+            if (latest['lat'] != null && latest['lon'] != null) {
+              double lat = double.tryParse(latest['lat'].toString()) ?? -6.9690;
+              double lon = double.tryParse(latest['lon'].toString()) ?? 107.6282;
+              location = LatLng(lat, lon);
+            }
+          }
+
           return {
-            'status': dataMap['status']?.toString() ?? 'Unknown',
-            'lastUpdate': dataMap['lastUpdate'] ?? 0,
+            'status': currentStatus,
+            'lastUpdate': lastUpdate,
             'history': historyList,
             'location': location,
           };

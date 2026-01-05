@@ -75,6 +75,8 @@ class HomeController extends ChangeNotifier {
         // Cek jika data menggunakan key 'timestamp' (Epoch)
         if (item['timestamp'] != null && item['timestamp'] is int) {
           timeStr = _formatTimestamp(item['timestamp']);
+        } else if (item['timestamp_gmt9'] != null) {
+          timeStr = item['timestamp_gmt9'].toString();
         } else if (item['time'] != null) {
           timeStr = item['time'].toString();
         }

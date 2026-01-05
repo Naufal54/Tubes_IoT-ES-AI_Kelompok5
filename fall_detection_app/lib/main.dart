@@ -6,6 +6,11 @@ import 'package:eldercare/services/notification_service.dart';
 import 'package:eldercare/services/firebase_notification_listener.dart';
 import 'firebase_options.dart';
 
+// ignore: unused_element
+late ProfileController _profileController;
+late NotificationService _notificationService;
+late FirebaseNotificationListener _firebaseNotificationListener;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -13,17 +18,15 @@ void main() async {
   );
   
   // Initialize notification service
-  final notificationService = NotificationService();
-  await notificationService.initialize();
+  _notificationService = NotificationService();
+  await _notificationService.initialize();
   debugPrint("Main: NotificationService initialized");
   
   // Initialize Firebase notification listener
-  final firebaseNotificationListener = FirebaseNotificationListener();
-  firebaseNotificationListener.startListening();
+  _firebaseNotificationListener = FirebaseNotificationListener();
+  _firebaseNotificationListener.startListening();
   debugPrint("Main: FirebaseNotificationListener started");
-  
-  // Initialize ProfileController saat startup untuk load user data dari Firebase
-  ProfileController(); // Fire and forget (akan tetap hidup karena listener di UserInfo)
+  _profileController = ProfileController();
   debugPrint("Main: ProfileController initialized");
   
   runApp(const MyApp());
